@@ -1,5 +1,5 @@
 """
-ASGI config for anynote project.
+ASGI anynote for anynote project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
