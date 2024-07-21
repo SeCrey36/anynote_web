@@ -8,9 +8,11 @@ from api.serializers import UserSerializer, UsersSerializer
 
 class UsersApiView(generics.ListCreateAPIView):
     """
-    API endpoint that allows to get all users data
+    API endpoint that allows to get all users' data.
+
     Only for debugging
     permission: is_staff
+
     """
     queryset = User.objects.all()
     serializer_class = UsersSerializer
@@ -22,13 +24,15 @@ usersApiView = UsersApiView.as_view()
 
 class UserApiView(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows to get a specific ser data
+    API endpoint that allows to get a specific ser data.
+
     Only for debugging
     permission: is_staff
-    """
 
+    """
     queryset = User.objects.all()
-    lookup_field = 'pk'
+    lookup_field = "pk"
     serializer_class = UsersSerializer
+
 
 userApiView = UserApiView.as_view()
