@@ -12,13 +12,14 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
-import environs
-from dotenv import load_dotenv
+from environs import Env
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-load_dotenv()
+env = Env()
+env.read_env()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_simplejwt',
     'api.apps.ApiConfig',
     'main.apps.MainConfig',
 ]
@@ -80,13 +82,15 @@ WSGI_APPLICATION = 'anynote.wsgi.application'
 
 DATABASES = {}
 
-if os.environ.get("DATABASE") == 'postgres':
+print('DATABASE IN USE: ', env("DATABASE"))
+
+if env("DATABASE") == 'postgres':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get("DATABASE_NAME"),
-            'USER': os.environ.get("DATABASE_USERNAME"),
-            'PASSWORD': os.environ.get("DATABASE_PASSWORD"),
+            'NAME': env("DATABASE_NAME"),
+            'USER': env("DATABASE_USERNAME"),
+            'PASSWORD': env("DATABASE_PASSWORD"),
             # "HOST": "db", DOCKER CONTAINER NAME for
             "HOST": "localhost",
             "PORT": "5432",
@@ -99,10 +103,6 @@ else:
             'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
-
-
-
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -126,8 +126,16 @@ REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,
     # or allow read-only access for unauthenticated users.
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(hours=1),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
 }
 
 # Internationalization
