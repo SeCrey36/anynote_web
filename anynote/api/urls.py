@@ -5,11 +5,18 @@ from api.views import (
     tokenRefreshView,
     tokenObtainPairView,
     tokenVerifyView,
+    notesApiView,
+    noteApiView,
+    accountApiView,
 )
 
 urlpatterns = [
     path("users/", usersApiView, name="usersApi"),
-    path("users/<int:pk>/", userApiView, name="userApi"),
+    path("users/<int:pk>", userApiView, name="userApi"),
+    path("account/", accountApiView, name="accountApi"),
+
+    path("notes/", notesApiView, name="notesApi"),
+    path("note/", noteApiView, name="noteApi"),
 
     path("token/", tokenObtainPairView, name="token_obtain_pair"),
     path("token/refresh/", tokenRefreshView, name="token_refresh"),
