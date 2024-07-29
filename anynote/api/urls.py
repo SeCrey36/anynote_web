@@ -11,10 +11,10 @@ from api.views import (
 
 urlpatterns = [
     path("users/", usersApiView, name="usersApi"),
-    path("users/<int:pk>/", userApiView, name="userApi"),
+    path("user/", userApiView, name="userApi"),
 
     path("notes/", notesApiView, name="notesApi"),
-    path("notes/<int:pk>/", noteApiView, name="noteApi"),
+    path("note/", noteApiView, name="noteApi"),
 
     path("token/", tokenObtainPairView, name="token_obtain_pair"),
     path("token/refresh/", tokenRefreshView, name="token_refresh"),

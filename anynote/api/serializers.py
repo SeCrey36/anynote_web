@@ -36,7 +36,7 @@ class UsersSerializer(serializers.ModelSerializer):
 
 
 class NotesSerializer(serializers.ModelSerializer):
-    user_id = serializers.IntegerField()
+    id = serializers.IntegerField()
     content = serializers.JSONField(default=dict)
     hash = serializers.CharField(max_length=200, default="")
 
