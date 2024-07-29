@@ -7,11 +7,13 @@ from api.views import (
     tokenVerifyView,
     notesApiView,
     noteApiView,
+    accountApiView,
 )
 
 urlpatterns = [
     path("users/", usersApiView, name="usersApi"),
-    path("user/", userApiView, name="userApi"),
+    path("user/<int:pk>", userApiView, name="userApi"),
+    path("account/", accountApiView, name="accountApi"),
 
     path("notes/", notesApiView, name="notesApi"),
     path("note/", noteApiView, name="noteApi"),

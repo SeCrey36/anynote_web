@@ -20,7 +20,6 @@ from main.models import NoteModel
 import jwt
 
 
-
 class UsersApiView(generics.ListCreateAPIView):
     """
     API endpoint that allows to get all users' data.
@@ -34,23 +33,34 @@ class UsersApiView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
 
-    # def post(self, request, *args, **kwargs):
-    #     serializer = UsersSerializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     serializer.save()
-    #
-    #     return Response(serializer.data)
-
 
 usersApiView = UsersApiView.as_view()
 
 
 class UserApiView(generics.RetrieveUpdateDestroyAPIView):
     """
-    API endpoint that allows to get a specific user data.
+    API endpoint that allows to get a specific ser data.
 
     Only for debugging
     permission: is_staff
+
+    """
+    queryset = User.objects.all()
+    lookup_field = "pk"
+    serializer_class = UsersSerializer
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
+
+
+userApiView = UserApiView.as_view()
+
+
+class AccountApiView(generics.RetrieveUpdateDestroyAPIView):
+    """
+    API endpoint that allows to get a data of user who requests this page and is authenticated.
+
+    Working version
+    permission: is_authenticated
 
     """
     queryset = User.objects.all()
@@ -75,7 +85,8 @@ class UserApiView(generics.RetrieveUpdateDestroyAPIView):
         except NoteModel.DoesNotExist:
             raise Http404("Note not found.")
 
-userApiView = UserApiView.as_view()
+
+accountApiView = AccountApiView.as_view()
 
 
 class NotesApiView(generics.ListCreateAPIView):
@@ -91,16 +102,14 @@ class NotesApiView(generics.ListCreateAPIView):
     authentication_classes = [JWTAuthentication]
     permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
 
-
     def post(self, request, *args, **kwargs):
-        #request.data["user_id"] = request.user.id
-        #request.data["user"] = request.user.id
+        # request.data["user_id"] = request.user.id
+        # request.data["user"] = request.user.id
         print(request.data)
         return self.create(request, *args, **kwargs)
 
 
 notesApiView = NotesApiView.as_view()
-
 
 
 class NoteApiView(generics.ListCreateAPIView):
