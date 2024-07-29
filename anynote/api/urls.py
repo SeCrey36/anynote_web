@@ -12,7 +12,7 @@ from api.views import (
 
 urlpatterns = [
     path("users/", usersApiView, name="usersApi"),
-    path("user/<int:pk>", userApiView, name="userApi"),
+    path("users/<int:pk>", userApiView, name="userApi"),
     path("account/", accountApiView, name="accountApi"),
 
     path("notes/", notesApiView, name="notesApi"),
