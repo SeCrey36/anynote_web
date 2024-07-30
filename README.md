@@ -2,9 +2,5 @@
 
 Web-part of AnyNote
 
-# API
+Docs for API is in **APIDOCS.md** 
 
-
-# TESTTEST
-
-- Test

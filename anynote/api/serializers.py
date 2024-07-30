@@ -3,12 +3,6 @@ from django.contrib.auth.models import User
 from main.models import NoteModel
 
 
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = "__all__"
-
-
 class UsersSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
     last_login = serializers.DateTimeField(read_only=True)
@@ -36,14 +30,14 @@ class UsersSerializer(serializers.ModelSerializer):
 
 
 class NotesSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField()
+    id = serializers.IntegerField(read_only=True)
     content = serializers.JSONField(default=dict)
     hash = serializers.CharField(max_length=200, default="")
 
     def create(self, validated_data):
-        print(validated_data, "serdata")
+        print(validated_data)
         note = NoteModel.objects.create(
-            user=User.objects.get(id=validated_data.get("user_id")),
+            user=validated_data.get("user"),
             content=validated_data.get("content", {}),
             hash=validated_data.get("hash", ""),
         )
@@ -51,4 +45,4 @@ class NotesSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = NoteModel
-        fields = "__all__"
+        fields = ["id", "content", "hash", "user"]  # "__all__"  #

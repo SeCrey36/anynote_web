@@ -1,24 +1,29 @@
 from django.urls import path
 from api.views import (
-    usersApiView,
-    userApiView,
+    registerApiView,
     tokenRefreshView,
     tokenObtainPairView,
     tokenVerifyView,
+    usersApiView,
+    userApiView,
     notesApiView,
-    noteApiView,
     accountApiView,
+    accountNotesApiView,
+    accountNoteApiView,
 )
 
 urlpatterns = [
     path("users/", usersApiView, name="usersApi"),
     path("users/<int:pk>", userApiView, name="userApi"),
-    path("account/", accountApiView, name="accountApi"),
-
     path("notes/", notesApiView, name="notesApi"),
-    path("note/", noteApiView, name="noteApi"),
+    path("notes/<int:pk>", notesApiView, name="noteApi"),
 
-    path("token/", tokenObtainPairView, name="token_obtain_pair"),
-    path("token/refresh/", tokenRefreshView, name="token_refresh"),
-    path("token/verify/", tokenVerifyView, name="token_verify")
+    path("auth/login/", tokenObtainPairView, name="token_obtain_pair"),
+    path("auth/register/", registerApiView, name="register_api"),
+    path("auth/refresh/", tokenRefreshView, name="token_refresh"),
+    path("auth/verify/", tokenVerifyView, name="token_verify"),
+
+    path("account/", accountApiView, name="accountApi"),
+    path("account/notes/", accountNotesApiView, name="accountNotesApiView"),
+    path("account/notes/<int:pk>/", accountNoteApiView, name="accountNotesApiView"),
 ]
