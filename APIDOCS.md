@@ -9,8 +9,8 @@ API documentation for
 - [/api/auth/verify/](#post-apiauthverify)
 
 
-- [/api/account/](#post-apitoken)
-- [/api/account/notes/](#post-apitoken)
+- [/api/account/](#apiaccount)
+- [/api/account/notes/](#apiaccountnotes)
 
 ---
 
@@ -81,7 +81,7 @@ curl --location --request POST 'http://localhost:8000/api/some_api_endpoint/' \
 }
 ```
 
-# _access_ token
+## _access_ token
 
 Authorization header token. It allows server to identify, who is the request sender.
 
@@ -107,7 +107,7 @@ Answer body if access token is not valid:
 }
 ```
 
-# _refresh_ token
+## _refresh_ token
 
 Token for getting a new access token, instead of your expired one.
 
@@ -226,11 +226,17 @@ Send a token to get an information of it expirency
 {}
 ``` 
 
-# /api/auth/account/
+# /api/account/
 
-## **GET: /api/auth/account/**
+To access these requests, you must have this value in headers:
+
+**_Authorization: Bearer [<access_token>](#access-token)_**
+
+### **GET: /api/account/**
 
 Send a token to get an information of it expirency
+
+
 
 **Answer Body:**
 
@@ -251,7 +257,7 @@ Send a token to get an information of it expirency
 }
 ```
 
-## PATCH: /api/auth/account/
+### PATCH: /api/account/
 
 Modify some data of the user
 
@@ -273,9 +279,9 @@ Modify some data of the user
 
 Password change by PATCH request is not implemented yet. **DO NOT PATCH PASSWORD VALUE**
 
-# /api/auth/account/notes
+# /api/account/notes
 
-## GET: /api/auth/account/notes
+### GET: /api/account/notes
 
 Get all user's notes
 
@@ -293,7 +299,7 @@ Get all user's notes
 ```
 
 
-## POST: /api/auth/account/notes/
+### POST: /api/account/notes/
 
 Create new note
 
@@ -317,7 +323,7 @@ Create new note
 }
 ```
 
-## PATCH: /api/auth/account/notes/(note_id)
+### PATCH: /api/account/notes/(note_id)
 
 ```css
 !!!WARNING!!!
