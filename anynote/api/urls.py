@@ -1,15 +1,16 @@
 from django.urls import path
+
 from api.views import (
-    registerApiView,
-    tokenRefreshView,
-    tokenObtainPairView,
-    tokenVerifyView,
-    usersApiView,
-    userApiView,
-    notesApiView,
     accountApiView,
-    accountNotesApiView,
     accountNoteApiView,
+    accountNotesApiView,
+    notesApiView,
+    registerApiView,
+    tokenObtainPairView,
+    tokenRefreshView,
+    tokenVerifyView,
+    userApiView,
+    usersApiView,
 )
 
 urlpatterns = [
