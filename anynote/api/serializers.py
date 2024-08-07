@@ -1,5 +1,7 @@
-from rest_framework import serializers
 from django.contrib.auth.models import User
+
+from rest_framework import serializers
+
 from main.models import NoteModel
 
 
@@ -9,11 +11,9 @@ class UsersSerializer(serializers.ModelSerializer):
     date_joined = serializers.DateTimeField(read_only=True)
 
     def create(self, validated_data):
-        """
-        Overridden create method. Ensures that debugApi user creation will work correctly.
+        """Overridden create method. Ensures that debugApi user creation will work correctly.
 
         """
-
         user = User.objects.create_user(
             username=validated_data.get('username'),
             password=validated_data.get('password'),
@@ -33,6 +33,7 @@ class NotesSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(read_only=True)
     content = serializers.JSONField(default=dict)
     hash = serializers.CharField(max_length=200, default="")
+    # user = serializers.ModelField(write_only=True, model_field=User)
 
     def create(self, validated_data):
         print(validated_data)

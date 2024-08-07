@@ -1,30 +1,27 @@
 from django.conf import settings
-from django.http import Http404
-from django.shortcuts import render
 from django.contrib.auth.models import User
-from rest_framework import viewsets, permissions, generics
+from django.http import Http404
+
+from rest_framework import generics, permissions
 from rest_framework.exceptions import PermissionDenied
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
+
+import jwt
+from main.models import NoteModel
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
     TokenVerifyView,
 )
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from api.serializers import UsersSerializer, NotesSerializer
-
-from main.models import NoteModel
-import jwt
+from api.serializers import NotesSerializer, UsersSerializer
 
 
 class RegisterApiView(generics.CreateAPIView):
-    """
-    API endpoint that allows to register a new user
+    """API endpoint that allows to register a new user
 
     """
+
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     permission_classes = [permissions.AllowAny]
@@ -40,13 +37,13 @@ tokenVerifyView = TokenVerifyView.as_view()
 
 
 class AccountApiView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    API endpoint that allows to get a data of user who requests this page and is authenticated.
+    """API endpoint that allows to get a data of user who requests this page and is authenticated.
 
     Working version
     permission: is_authenticated
 
     """
+
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     authentication_classes = [JWTAuthentication]
@@ -73,11 +70,11 @@ accountApiView = AccountApiView.as_view()
 
 
 class AccountNotesApiView(generics.ListCreateAPIView):
-    """
-    API endpoint that allows to get and post users Note data
+    """API endpoint that allows to get and post users Note data
 
     permission: is_authenticated
     """
+
     queryset = NoteModel.objects.all()
     serializer_class = NotesSerializer
     authentication_classes = [JWTAuthentication]
@@ -109,11 +106,11 @@ accountNotesApiView = AccountNotesApiView.as_view()
 
 
 class AccountNoteApiView(generics.RetrieveUpdateDestroyAPIView):
-    """
-        API endpoint that allows to get post and patch individual Note data
+    """API endpoint that allows to get post and patch individual Note data
 
-        permission: is_authenticated
-        """
+    permission: is_authenticated
+    """
+
     queryset = NoteModel.objects.all()
     serializer_class = NotesSerializer
     lookup_field = "pk"
@@ -144,13 +141,13 @@ accountNoteApiView = AccountNoteApiView.as_view()
 # DIRECT DATA ACCESS VIEWS. FOR DEBUGGING
 
 class UsersApiView(generics.ListCreateAPIView):
-    """
-    API endpoint that allows to get and post users' data.
+    """API endpoint that allows to get and post users' data.
 
     Only for debugging
     permission: is_staff
 
     """
+
     queryset = User.objects.all()
     serializer_class = UsersSerializer
     authentication_classes = [JWTAuthentication]
@@ -161,13 +158,13 @@ usersApiView = UsersApiView.as_view()
 
 
 class UserApiView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    API endpoint that allows to get post and patch individual user data.
+    """API endpoint that allows to get post and patch individual user data.
 
     Only for debugging
     permission: is_staff
 
     """
+
     queryset = User.objects.all()
     lookup_field = "pk"
     serializer_class = UsersSerializer
@@ -179,13 +176,13 @@ userApiView = UserApiView.as_view()
 
 
 class NotesApiView(generics.ListCreateAPIView):
-    """
-    API endpoint that allows to get all Notes' data
+    """API endpoint that allows to get all Notes' data
 
     Only for debugging
     permission: is_staff
 
     """
+
     queryset = NoteModel.objects.all()
     serializer_class = NotesSerializer
     authentication_classes = [JWTAuthentication]
@@ -206,13 +203,13 @@ notesApiView = NotesApiView.as_view()
 
 
 class NoteApiView(generics.RetrieveUpdateDestroyAPIView):
-    """
-        API endpoint that allows to get post and patch individual Note data
+    """API endpoint that allows to get post and patch individual Note data
 
-        Only for debugging
-        permission: is_staff
+    Only for debugging
+    permission: is_staff
 
     """
+
     queryset = NoteModel.objects.all()
     serializer_class = NotesSerializer
     lookup_field = "pk"
