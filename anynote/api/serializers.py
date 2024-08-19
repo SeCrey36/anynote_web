@@ -6,13 +6,17 @@ from main.models import NoteModel
 
 
 class UsersSerializer(serializers.ModelSerializer):
+    """Serializer for users."""
+
     password = serializers.CharField(write_only=True)
     last_login = serializers.DateTimeField(read_only=True)
     date_joined = serializers.DateTimeField(read_only=True)
 
     def create(self, validated_data):
-        """Overridden create method. Ensures that debugApi user creation will work correctly.
+        """Create new user.
 
+        Overrides base method because
+        user creation must be done by Django's User.objects.create_user.
         """
         user = User.objects.create_user(
             username=validated_data.get('username'),
@@ -26,17 +30,18 @@ class UsersSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = "__all__"  # ['id', 'username', 'last_login', 'date_joined', 'password']
+        fields = "__all__"
 
 
 class NotesSerializer(serializers.ModelSerializer):
+    """Serializer class for Notes."""
+
     id = serializers.IntegerField(read_only=True)
     content = serializers.JSONField(default=dict)
     hash = serializers.CharField(max_length=200, default="")
-    # user = serializers.ModelField(write_only=True, model_field=User)
 
     def create(self, validated_data):
-        print(validated_data)
+        """Create new note."""
         note = NoteModel.objects.create(
             user=validated_data.get("user"),
             content=validated_data.get("content", {}),
