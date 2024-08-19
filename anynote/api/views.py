@@ -97,8 +97,8 @@ class AccountNotesApiView(generics.ListCreateAPIView):
             raise Http404("Note not found.")
 
     def post(self, request, *args, **kwargs):
-        request.data["user"] = request.user.id
         print(request.data)
+        request.data["user"] = request.user.id
         return self.create(request, *args, **kwargs)
 
 

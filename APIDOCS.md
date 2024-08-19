@@ -205,7 +205,7 @@ Send a refresh token to the server and receives a new acces token
 
 ```json
 {
-  "token": "<refresh_token>"
+  "token": "<refresh_or_access_token>"
 }
 ```
 
@@ -330,6 +330,15 @@ Create new note
 ```
 _**For now [HATEOAS](https://habr.com/ru/articles/483328/) is not implemented yet and you must set `note_id` in url**_
 
+**Request Body**
+```json
+{
+  "content": {}
+}
+```
+
+
+**Answer Body**
 ```json
 {
   "id": 5,
