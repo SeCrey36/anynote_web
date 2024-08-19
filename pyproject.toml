@@ -228,7 +228,7 @@ exclude = [
 #python_files = ["tests.py", "test_*.py", "*_tests.py"]
 
 [tool.poetry]
-name = "anynote-web"
+name = "anynote_web"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
