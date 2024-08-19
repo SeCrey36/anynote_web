@@ -24,8 +24,9 @@ env.read_env()
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-ef$^*rtd*j87=8qw=d)0!@@avgllp3glmav9uhb2h8whf_+z1)'
-
+# IMPORTANT: SET NEW SECRET KEY VIA import secrets && secrets.token_hex(100)
+# https://stackoverflow.com/questions/41298963/is-there-a-function-for-generating-settings-secret-key-in-django
+SECRET_KEY = 'django-insecure-ef$^*rtd*j87=8qw=d)0!@@avgllp3glmav9uhb2h8whf_+z1)' #noqa: S105
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -152,10 +153,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+STATIC_ROOT = Path(BASE_DIR, "static")
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'main', 'static'),
+   Path(BASE_DIR, 'main', 'static'),
 ]
 
 # Default primary key field type

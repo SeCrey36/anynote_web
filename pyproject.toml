@@ -47,7 +47,7 @@ extend-select = [
     # https://docs.astral.sh/ruff/rules/#flake8-todos-td
     "TD",
     # https://docs.astral.sh/ruff/rules/#eradicate-era
-    "ERA",
+#    "ERA",
     # https://docs.astral.sh/ruff/rules/#tryceratops-try
     "TRY",
     # https://docs.astral.sh/ruff/rules/#flynt-fly
@@ -92,6 +92,8 @@ ignore = [
     "D407",
     # https://docs.astral.sh/ruff/rules/error-suffix-on-exception-name
     "N818",
+    # https://docs.astral.sh/ruff/rules/mixed-case-variable-in-global-scope/
+    "N816",
     # https://docs.astral.sh/ruff/rules/invalid-module-name
     "N999",
     # https://docs.astral.sh/ruff/rules/unnecessary-collection-call
@@ -115,6 +117,17 @@ ignore = [
     "F405",
     # https://docs.astral.sh/ruff/rules/line-too-long
     "E501",
+]
+"settings.py" = [
+    # https://docs.astral.sh/ruff/rules/unused-import/
+    "F401",
+    # https://docs.astral.sh/ruff/rules/undefined-local-with-import-star
+    "F403",
+    # https://docs.astral.sh/ruff/rules/undefined-local-with-import-star-usage
+    "F405",
+    # https://docs.astral.sh/ruff/rules/line-too-long
+    "E501",
+
 ]
 "**/tests/*" = [
     # https://docs.astral.sh/ruff/rules/assert
@@ -167,6 +180,7 @@ ignore = [
 "**/apps.py" = [
     # https://docs.astral.sh/ruff/rules/undocumented-public-method
     "D102",
+    "D101",
 ]
 
 [tool.ruff.lint.isort]
@@ -214,7 +228,7 @@ exclude = [
 #python_files = ["tests.py", "test_*.py", "*_tests.py"]
 
 [tool.poetry]
-name = "anynote-web"
+name = "anynote_web"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]

@@ -1,11 +1,7 @@
-from django.conf import settings
 from django.contrib.auth.models import User
-from django.http import Http404
 
 from rest_framework import generics, permissions
-from rest_framework.exceptions import PermissionDenied
 
-import jwt
 from main.models import NoteModel
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import (
@@ -18,9 +14,7 @@ from api.serializers import NotesSerializer, UsersSerializer
 
 
 class RegisterApiView(generics.CreateAPIView):
-    """API endpoint that allows to register a new user
-
-    """
+    """API endpoint that allows to register a new user."""
 
     queryset = User.objects.all()
     serializer_class = UsersSerializer
@@ -37,7 +31,7 @@ tokenVerifyView = TokenVerifyView.as_view()
 
 
 class AccountApiView(generics.RetrieveUpdateDestroyAPIView):
-    """API endpoint that allows to get a data of user who requests this page and is authenticated.
+    """API endpoint that allows to get a logged-in user data.
 
     Working version
     permission: is_authenticated
@@ -50,27 +44,15 @@ class AccountApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_object(self):
-        access_token = self.request.META.get('HTTP_AUTHORIZATION').split()[1]
-        try:
-            decoded_token = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
-            user_id = decoded_token.get('user_id')
-            if user_id:
-                return User.objects.get(pk=user_id)
-            else:
-                raise Http404("Note not found.")
-
-        except jwt.exceptions.InvalidSignatureError:
-            raise PermissionDenied("Invalid access token.")
-
-        except NoteModel.DoesNotExist:
-            raise Http404("Note not found.")
+        """Return the request's user data."""
+        return self.request.user
 
 
 accountApiView = AccountApiView.as_view()
 
 
 class AccountNotesApiView(generics.ListCreateAPIView):
-    """API endpoint that allows to get and post users Note data
+    """API endpoint that allows to get and post users Note data.
 
     permission: is_authenticated
     """
@@ -81,23 +63,11 @@ class AccountNotesApiView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        access_token = self.request.META.get('HTTP_AUTHORIZATION').split()[1]
-        try:
-            decoded_token = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
-            user_id = decoded_token.get('user_id')
-            if user_id:
-                return NoteModel.objects.filter(user=User.objects.get(pk=user_id))
-            else:
-                raise Http404("Note not found.")
-
-        except jwt.exceptions.InvalidSignatureError:
-            raise PermissionDenied("Invalid access token.")
-
-        except NoteModel.DoesNotExist:
-            raise Http404("Note not found.")
+        """Return notes queryset of a request's user."""
+        return NoteModel.objects.filter(user=self.request.user)
 
     def post(self, request, *args, **kwargs):
-        print(request.data)
+        """Create a new note for a request user."""
         request.data["user"] = request.user.id
         return self.create(request, *args, **kwargs)
 
@@ -106,7 +76,7 @@ accountNotesApiView = AccountNotesApiView.as_view()
 
 
 class AccountNoteApiView(generics.RetrieveUpdateDestroyAPIView):
-    """API endpoint that allows to get post and patch individual Note data
+    """API endpoint that allows to get post and patch individual Note data.
 
     permission: is_authenticated
     """
@@ -118,21 +88,8 @@ class AccountNoteApiView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
-        access_token = self.request.META.get('HTTP_AUTHORIZATION').split()[1]
-        print(access_token)
-        try:
-            decoded_token = jwt.decode(access_token, settings.SECRET_KEY, algorithms=['HS256'])
-            user_id = decoded_token.get('user_id')
-            if user_id:
-                return NoteModel.objects.filter(user=User.objects.get(pk=user_id))
-            else:
-                raise Http404("Note not found.")
-
-        except jwt.exceptions.InvalidSignatureError:
-            raise PermissionDenied("Invalid access token.")
-
-        except NoteModel.DoesNotExist:
-            raise Http404("Note not found.")
+        """Return notes queryset of a request's user."""
+        return NoteModel.objects.filter(user=self.request.user)
 
 
 accountNoteApiView = AccountNoteApiView.as_view()
@@ -176,7 +133,7 @@ userApiView = UserApiView.as_view()
 
 
 class NotesApiView(generics.ListCreateAPIView):
-    """API endpoint that allows to get all Notes' data
+    """API endpoint that allows to get all Notes' data.
 
     Only for debugging
     permission: is_staff
@@ -189,21 +146,11 @@ class NotesApiView(generics.ListCreateAPIView):
     permission_classes = [permissions.IsAuthenticated, permissions.IsAdminUser]
 
 
-# def post(self, request, *args, **kwargs):
-#       print(request)
-#       serializer = self.get_serializer(data=request.data)
-#       serializer.is_valid(raise_exception=True)
-#       self.perform_create(serializer)
-#       headers = self.get_success_headers(serializer.data)
-#       return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-#       # return self.create(request, *args, **kwargs)
-
-
 notesApiView = NotesApiView.as_view()
 
 
 class NoteApiView(generics.RetrieveUpdateDestroyAPIView):
-    """API endpoint that allows to get post and patch individual Note data
+    """API endpoint that allows to get post and patch individual Note data.
 
     Only for debugging
     permission: is_staff
