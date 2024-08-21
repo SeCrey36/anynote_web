@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 
 from rest_framework import generics, permissions
 
+from api.serializers import NotesSerializer, UsersSerializer
 from main.models import NoteModel
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.views import (
@@ -9,8 +10,6 @@ from rest_framework_simplejwt.views import (
     TokenRefreshView,
     TokenVerifyView,
 )
-
-from api.serializers import NotesSerializer, UsersSerializer
 
 
 class RegisterApiView(generics.CreateAPIView):
