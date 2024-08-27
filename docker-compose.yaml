@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  db:
+    image: postgres:latest
+    container_name: anynote_db
+
+    environment:
+      - POSTGRES_USER
+      - POSTGRES_DB
+      - POSTGRES_PASSWORD
+      - PGUSER
+    user: root
+    volumes:
+      - our_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-U", "$$POSTGRES_USER"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+  
+  django:
+    image: django-prj
+    container_name: anynote-back
+
+    environment:
+        - DATABASE
+        - POSTGRES_USER
+        - POSTGRES_DB
+        - POSTGRES_PASSWORD
+    ports:
+        - "8000:8000"
+    #command: poetry run python manage.py runserver 0.0.0.0:8000
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+  
+volumes: 
+  our_data: 
+    name: our_data
+
+networks:
+  anyland:
+    name: anyland
