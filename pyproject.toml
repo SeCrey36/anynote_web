@@ -3,6 +3,7 @@ line-length = 79
 indent-width = 4
 target-version = "py312"
 
+
 [tool.ruff.lint]
 extend-select = [
     # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
@@ -64,6 +65,8 @@ extend-select = [
     "RUF"
 ]
 ignore = [
+    # https://docs.astral.sh/ruff/rules/hardcoded-bind-all-interfaces
+    "S104",
     # https://docs.astral.sh/ruff/rules/missing-type-self
     "ANN101",
     # https://docs.astral.sh/ruff/rules/missing-type-cls

@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-ef$^*rtd*j87=8qw=d)0!@@avgllp3glmav9uhb2h8whf_+z1)
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 # Application definition
 
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'api.apps.ApiConfig',
     'main.apps.MainConfig',
+    'django.contrib.postgres',
 ]
 
 MIDDLEWARE = [
@@ -87,12 +88,12 @@ if env("DATABASE") == 'postgres':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
-            'NAME': env("DATABASE_NAME"),
-            'USER': env("DATABASE_USERNAME"),
-            'PASSWORD': env("DATABASE_PASSWORD"),
-            # "HOST": "db", DOCKER CONTAINER NAME for
-            "HOST": "localhost",
-            "PORT": "5432",
+            'NAME': env("POSTGRES_DB"),
+            'USER': env("POSTGRES_USER"),
+            'PASSWORD': env("POSTGRES_PASSWORD"),
+            "HOST": env("POSTGRES_HOST"),
+            #"HOST": "localhost",
+            "PORT": env("POSTGRES_PORT"),
         },
     }
 else:
