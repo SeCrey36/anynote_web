@@ -230,6 +230,7 @@ DJANGO_SETTINGS_MODULE = "anynote.anynote.settings"
 django_find_project = false
 python_files = ["tests.py", "test_*.py", "*_tests.py"]
 
+
 [tool.poetry]
 name = "anynote_web"
 version = "0.1.0"
@@ -252,6 +253,9 @@ ruff = "^0.5.7"
 coverage = "^7.6.1"
 pytest = "^8.3.2"
 pytest-django = "^4.8.0"
+pytest-xdist = "^3.6.1"
+model-bakery = "^1.19.3"
+ipdb = "^0.13.13"
 
 [build-system]
 requires = ["poetry-core"]
