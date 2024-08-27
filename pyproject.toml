@@ -3,6 +3,7 @@ line-length = 79
 indent-width = 4
 target-version = "py312"
 
+
 [tool.ruff.lint]
 extend-select = [
     # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
@@ -222,10 +223,10 @@ exclude = [
 ]
 
 [tool.pytest.ini_options]
-#DJANGO_SETTINGS_MODULE = "anynote.settings"
-
-#pythonpath = "../anynote/"
-#python_files = ["tests.py", "test_*.py", "*_tests.py"]
+pythonpath = [".", "anynote"]
+DJANGO_SETTINGS_MODULE = "anynote.anynote.settings"
+django_find_project = false
+python_files = ["tests.py", "test_*.py", "*_tests.py"]
 
 [tool.poetry]
 name = "anynote_web"
@@ -236,7 +237,7 @@ license = "MIT"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.12"
+python = "^3.11"
 django = "^5.1"
 djangorestframework = "^3.15.2"
 djangorestframework-simplejwt = "^5.3.1"
